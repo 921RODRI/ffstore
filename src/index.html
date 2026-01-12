@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diamantes Free Fire</title>
+
+<meta name="theme-color" content="#22d3ee">
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:radial-gradient(circle at top,#0f172a,#020617);
+  color:#e5e7eb;
+}
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:20px;
+}
+h1{text-align:center}
+.subtitle{text-align:center;color:#94a3b8;margin-bottom:20px}
+
+.pack-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:15px;
+}
+.pack{
+  background:#020617;
+  border-radius:18px;
+  padding:15px;
+  cursor:pointer;
+  border:2px solid transparent;
+  transition:.3s;
+}
+.pack:hover{border-color:#22d3ee}
+.pack.active{border-color:#22d3ee}
+.pack span{color:#22d3ee;font-weight:bold}
+
+.section{
+  display:none;
+  margin-top:25px;
+  background:#020617;
+  border-radius:20px;
+  padding:20px;
+  animation:fadeUp .5s ease;
+}
+
+input,select,button{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border-radius:12px;
+  border:none;
+}
+button{
+  background:#22d3ee;
+  color:#020617;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.support{
+  margin-top:20px;
+  display:flex;
+  justify-content:center;
+}
+.support a{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:#22c55e;
+  color:#020617;
+  padding:12px 18px;
+  border-radius:30px;
+  font-weight:bold;
+  text-decoration:none;
+  box-shadow:0 0 15px rgba(34,197,94,.6);
+  animation:softPulse 2.5s infinite;
+}
+
+@keyframes softPulse{
+  0%{box-shadow:0 0 10px rgba(34,197,94,.4);transform:scale(1)}
+  50%{box-shadow:0 0 25px rgba(34,197,94,.9);transform:scale(1.05)}
+  100%{box-shadow:0 0 10px rgba(34,197,94,.4);transform:scale(1)}
+}
+
+.whatsapp{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#22c55e;
+  padding:15px;
+  border-radius:50px;
+  color:#020617;
+  font-weight:bold;
+  text-decoration:none;
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>💎Venta diamantes FF💎</h1>
+<div class="subtitle">Compra rápida y segura</div>
+
+<!-- PACKS -->
+<div class="pack-grid">
+  <div class="pack" onclick="selectPack(this,'110 diamantes','Gs. 8.000')">
+    <h3>110 💎</h3><span>Gs. 8.000</span>
+  </div>
+  <div class="pack" onclick="selectPack(this,'220 diamantes','Gs. 15.000')">
+    <h3>220 💎</h3><span>Gs. 15.000</span>
+  </div>
+  <div class="pack" onclick="selectPack(this,'341 diamantes','Gs. 23.000')">
+    <h3>341 💎</h3><span>Gs. 23.000</span>
+  </div>
+  <div class="pack" onclick="selectPack(this,'572 diamantes','Gs. 36.000')">
+    <h3>572 💎</h3><span>Gs. 36.000</span>
+  </div>
+  <div class="pack" onclick="selectPack(this,'913 diamantes','Gs. 60.000')">
+    <h3>913 💎</h3><span>Gs. 60.000</span>
+  </div>
+  <div class="pack" onclick="selectPack(this,'1.166 diamantes','Gs. 70.000')">
+    <h3>1.166 💎</h3><span>Gs. 70.000</span>
+  </div>
+  <div class="pack" onclick="selectPack(this,'1.738 diamantes','Gs. 110.000')">
+    <h3>1.738 💎</h3><span>Gs. 110.000</span>
+  </div>
+  <div class="pack" onclick="selectPack(this,'2.398 diamantes','Gs. 140.000')">
+    <h3>2.398 💎</h3><span>Gs. 140.000</span>
+  </div>
+  <div class="pack" onclick="selectPack(this,'4.796 diamantes','Gs. 275.000')">
+    <h3>4.796 💎</h3><span>Gs. 275.000</span>
+  </div>
+  <div class="pack" onclick="selectPack(this,'6.160 diamantes','Gs. 350.000')">
+    <h3>6.160 💎</h3><span>Gs. 350.000</span>
+  </div>
+</div>
+
+<!-- DATOS -->
+<div class="section" id="dataSection">
+  <h3>📋 Datos del jugador</h3>
+  <input id="playerId" placeholder="ID Free Fire (mín. 7 dígitos)" inputmode="numeric">
+  <select id="payment">
+    <option value="">Método de pago</option>
+    <option value="transferencia">Transferencia internacional</option>
+    <option value="western">Western Union</option>
+    <option value="bitcoin">Bitcoin</option>
+    <option value="tigo">Giro Tigo</option>
+  </select>
+  <button onclick="goToPayment()">Continuar</button>
+</div>
+
+<!-- PAGO -->
+<div class="section" id="paymentSection">
+  <h3>💳 Detalles de pago</h3>
+  <div id="paymentDetails"></div>
+  <div id="westernFields" style="display:none; margin-top:10px;">
+    <input id="wu_country" placeholder="País (ej: Paraguay)">
+    <input id="wu_city" placeholder="Ciudad (ej: Asunción)">
+    <input id="wu_mtcn" placeholder="Número MTCN (solo números)" inputmode="numeric">
+  </div>
+  <button onclick="confirmPayment()">Ya realicé el pago</button>
+</div>
+
+<!-- CONFIRMACION -->
+<div class="section" id="successSection">
+  <h2>✅ Gracias por su compra</h2>
+  <p>
+    En breve le llegará los diamantes<br>
+    <strong>(2–10 minutos)</strong>
+  </p>
+
+  <div class="support">
+    <a href="https://wa.me/595986387441" target="_blank">
+      💬 Soporte
+    </a>
+  </div>
+  <div style="margin-top:14px; display:flex; gap:10px; justify-content:center;">
+    <button id="newPurchase" style="padding:10px 18px; border-radius:10px;">Hacer otra compra</button>
+  </div>
+</div>
+
+</div>
+
+<a class="whatsapp" href="https://wa.me/595986387441" target="_blank">💬</a>
+
+<script>
+let pack="",price="",method="";
+
+function selectPack(el,p,pr){
+  pack=p;price=pr;
+  document.querySelectorAll('.pack').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  const dataSection = document.getElementById('dataSection');
+  dataSection.style.display = "block";
+
+  // esperar un frame para que el elemento se muestre y luego hacer scroll suave y enfocar
+  setTimeout(()=>{
+    dataSection.scrollIntoView({behavior:'smooth', block:'start'});
+    const input = document.getElementById('playerId');
+    if(input) input.focus();
+  }, 80);
+}
+
+function goToPayment(){
+  const id=document.getElementById('playerId').value.trim();
+  method=document.getElementById('payment').value;
+
+  if(id.length<7 || isNaN(id)){
+    if(navigator.vibrate) navigator.vibrate([200,100,200]);
+    alert("ID inválido");
+    return;
+  }
+  if(!method){
+    alert("Seleccioná método de pago");
+    return;
+  }
+
+  let details="";
+  if(method==="transferencia"){
+    details=`<p><strong>Transferencia internacional</strong></p>
+    <p>Banco: UENO BANK<br>Alias: 7.077.187<br>Nombre: Rodrigo Ramon Gimenez Fernandez</p>`;
+  }
+  if(method==="bitcoin"){
+    details=`<p><strong>Bitcoin</strong></p>
+    <p>Dirección BTC:<br><code>12QmpmHMAK3X4CkNo1NiSu9gaZbzW6BKeD</code></p>`;
+  }
+  if(method==="western"){
+    details=`<p><strong>Western Union</strong></p>
+    <p>Nombre: <strong>Rodrigo Ramon Gimenez Fernandez</strong><br>
+    País: <strong>Paraguay</strong><br>
+    Ciudad: <strong>Asunción</strong><br>
+    Instrucciones: Enviar y compartir el número MTCN con el vendedor.</p>`;
+  }
+  if(method==="tigo"){
+    details=`<p><strong>Giro Tigo</strong></p>
+    <p>Número: <strong>(+595)986387441</strong></p>`;
+  }
+  // Mostrar campos extra para Western Union
+  const westernFields = document.getElementById('westernFields');
+  if(westernFields){
+    if(method=== 'western'){
+      westernFields.style.display = 'block';
+      // si hay valores previos, preservarlos
+      const wc = document.getElementById('wu_country');
+      const wcity = document.getElementById('wu_city');
+      if(wc) wc.focus();
+    } else {
+      westernFields.style.display = 'none';
+    }
+  }
+  document.getElementById('paymentDetails').innerHTML=`
+  <p>Pack: <strong>${pack}</strong></p>
+  <p>Precio: <strong>${price}</strong></p>
+  ${details}`;
+
+  const paymentSection = document.getElementById('paymentSection');
+  paymentSection.style.display = "block";
+
+  // Esperar un pequeño retraso para que el DOM renderice la sección, luego hacer scroll suave y enfocar
+  setTimeout(()=>{
+    paymentSection.scrollIntoView({behavior:'smooth', block:'start'});
+    // intentar enfocar el primer control interactivo dentro de la sección
+    const btn = paymentSection.querySelector('button');
+    if(btn) btn.focus();
+  }, 80);
+}
+
+function confirmPayment(){
+  // marcar en sessionStorage para que al volver (retroceder) se muestre el agradecimiento
+  sessionStorage.setItem('justSubmitted','1');
+
+  // Rellenar formulario oculto
+  document.getElementById('f_pack').value = pack;
+  document.getElementById('f_price').value = price;
+  document.getElementById('f_id').value = document.getElementById('playerId').value;
+  document.getElementById('f_payment').value = method;
+
+  // Si es Western Union, validar campos extra y rellenarlos
+  if(method === 'western'){
+    const country = document.getElementById('wu_country').value.trim();
+    const city = document.getElementById('wu_city').value.trim();
+    const mtcn = document.getElementById('wu_mtcn').value.trim();
+    if(!country){ alert('Ingresá el país para Western Union'); return; }
+    if(!city){ alert('Ingresá la ciudad para Western Union'); return; }
+    if(!mtcn){ alert('Ingresá el número MTCN'); return; }
+    if(!/^\d+$/.test(mtcn)){ alert('El MTCN debe contener solo números'); return; }
+    document.getElementById('f_wu_country').value = country;
+    document.getElementById('f_wu_city').value = city;
+    document.getElementById('f_wu_mtcn').value = mtcn;
+  } else {
+    // ensure hidden fields are cleared
+    document.getElementById('f_wu_country').value = '';
+    document.getElementById('f_wu_city').value = '';
+  }
+
+  // Enviar formulario (navega a formsubmit.co)
+  document.getElementById('notifyForm').submit();
+}
+
+function showThankYouUI(){
+  document.getElementById('dataSection').style.display = 'none';
+  document.getElementById('paymentSection').style.display = 'none';
+  document.getElementById('successSection').style.display = 'block';
+  const btn = document.getElementById('newPurchase');
+  if(btn) btn.focus();
+}
+
+function resetAll(){
+  document.getElementById('successSection').style.display = 'none';
+  document.getElementById('paymentSection').style.display = 'none';
+  document.getElementById('dataSection').style.display = 'none';
+  document.getElementById('playerId').value = '';
+  document.getElementById('payment').value = '';
+  const westernFields = document.getElementById('westernFields');
+  if(westernFields) westernFields.style.display = 'none';
+  const wc = document.getElementById('wu_country'); if(wc) wc.value='';
+  const wcity = document.getElementById('wu_city'); if(wcity) wcity.value='';
+  const wmtcn = document.getElementById('wu_mtcn'); if(wmtcn) wmtcn.value='';
+  document.querySelectorAll('.pack').forEach(x=>x.classList.remove('active'));
+  pack=''; price=''; method='';
+  sessionStorage.removeItem('justSubmitted');
+  document.getElementById('f_wu_country').value = '';
+  document.getElementById('f_wu_city').value = '';
+  document.getElementById('f_wu_mtcn').value = '';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// Si el usuario retrocede y vuelve a esta página, mostramos el agradecimiento
+document.addEventListener('DOMContentLoaded', ()=>{
+  const newBtn = document.getElementById('newPurchase');
+  if(newBtn) newBtn.addEventListener('click', resetAll);
+  if(sessionStorage.getItem('justSubmitted')){
+    showThankYouUI();
+  }
+});
+
+// También manejar restauraciones desde bfcache
+window.addEventListener('pageshow', (e)=>{
+  if(sessionStorage.getItem('justSubmitted')) showThankYouUI();
+});
+
+</script>
+<form id="notifyForm" action="https://formsubmit.co/ventos1989@gmail.com" method="POST" style="display:none;">
+  <input type="hidden" name="pack" id="f_pack">
+  <input type="hidden" name="price" id="f_price">
+  <input type="hidden" name="id" id="f_id">
+  <input type="hidden" name="payment" id="f_payment">
+  <input type="hidden" name="wu_country" id="f_wu_country">
+  <input type="hidden" name="wu_city" id="f_wu_city">
+  <input type="hidden" name="wu_mtcn" id="f_wu_mtcn">
+  <input type="hidden" name="_captcha" value="false">
+</form>
+
+</body>
+</html>
